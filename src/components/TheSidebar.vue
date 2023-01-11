@@ -48,12 +48,12 @@
         <SidebarNavItem label="Movies" icon="film" />
         <SidebarNavItem label="News" icon="newspaper" />
         <SidebarNavItem label="Live" icon="statusOnline" />
-        <SidebarNavItem label="360deg Video" icon="eye" />
+        <SidebarNavItem label="360&deg; Video" icon="eye" />
       </ul>
     </section>
     <section class="py-2 border-b">
       <ul>
-        <SidebarNavItem label="360deg Video" icon="eye" />
+        <SidebarNavItem label="Browse channels" icon="plusCircle" />
       </ul>
     </section>
     <section class="py-2 border-b">
@@ -61,16 +61,16 @@
         More from YouTube
       </div>
       <ul>
-        <SidebarNavItem label="360deg Video" icon="eye" />
-        <SidebarNavItem label="360deg Video" icon="eye" />
+        <SidebarNavItem label="YouTube Premium" icon="play" />
+        <SidebarNavItem label="Live" icon="statusOnline" />
       </ul>
     </section>
     <section class="py-2 border-b">
       <ul>
-        <SidebarNavItem label="360deg Video" icon="eye" />
-        <SidebarNavItem label="360deg Video" icon="eye" />
-        <SidebarNavItem label="360deg Video" icon="eye" />
-        <SidebarNavItem label="360deg Video" icon="eye" />
+        <SidebarNavItem label="Settings" icon="cog" />
+        <SidebarNavItem label="Report history" icon="flag" />
+        <SidebarNavItem label="Help" icon="questionMarkCircle" />
+        <SidebarNavItem label="Seend feedback" icon="annotation" />
       </ul>
     </section>
     <section class="px-6 py-4 text-xs font-semibold space-y-4">

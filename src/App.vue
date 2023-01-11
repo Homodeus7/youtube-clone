@@ -1,12 +1,12 @@
 <template>
-  <TheHeader @open-mobile-sidebar="openMobileSidebar" />
-  <TheSidebarSmall />
-  <TheSidebar />
+  <TheHeader @toggle-sidebar="toggleSidebar" />
+  <TheSidebarSmall :is-open="sidebarState === 'compact'" />
+  <TheSidebar :is-open="sidebarState === 'normal'" />
   <TheSidebarMobile
     :is-open="isMobileSidebarOpen"
     @close="closeMobileSidebar"
   />
-  <TheCategories />
+  <TheCategories :is-sidebar-open="sidebarState === 'normal'" />
   <TheVideos />
 </template>
 
@@ -31,10 +31,27 @@ export default {
   data() {
     return {
       isMobileSidebarOpen: false,
+      sidebarState: null,
     };
+  },
+  mounted() {
+    if (window.innerWidth >= 768 && window.innerWidth > 1200) {
+      this.sidebarState = "compact";
+    }
+    if (window.innerWidth > 1200) {
+      this.sidebarState = "normal";
+    }
   },
 
   methods: {
+    toggleSidebar() {
+      if (window.innerWidth >= 1280) {
+        this.sidebarState =
+          this.sidebarState === "normal" ? "campact" : "normal";
+      } else {
+        this.openMobileSidebar();
+      }
+    },
     openMobileSidebar() {
       this.isMobileSidebarOpen = true;
     },

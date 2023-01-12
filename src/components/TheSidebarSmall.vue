@@ -114,7 +114,6 @@ export default {
       return [
         this.isOpen ? "md:block" : "hidden",
         "min-h-screen",
-        "xl:hidden",
         "overflow-auto",
         "fixed",
         "top-0",

@@ -7,7 +7,7 @@
     @close="closeMobileSidebar"
   />
   <TheCategories :is-sidebar-open="sidebarState === 'normal'" />
-  <TheVideos />
+  <TheVideos :is-sidebar-open="sidebarState === 'normal'" />
 </template>
 
 <script>
@@ -47,7 +47,7 @@ export default {
     toggleSidebar() {
       if (window.innerWidth >= 1280) {
         this.sidebarState =
-          this.sidebarState === "normal" ? "campact" : "normal";
+          this.sidebarState === "normal" ? "compact" : "normal";
       } else {
         this.openMobileSidebar();
       }

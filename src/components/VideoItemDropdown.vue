@@ -52,26 +52,26 @@ export default {
   },
   watch: {
     isOpen() {
+      document.body.classList.toggle("overflow-hidden");
+
       this.$nextTick(() => this.isOpen && this.$refs.dropdown.focus());
     },
   },
   computed: {
     buttonClasses() {
       return [
-        "-mt-1",
-        "ml-auto",
         "p-1",
-        "opacity-0",
-        "group-hover:opacity-100",
         "text-gray-500",
         "hover:text-gray-700",
         "focus:outline-none",
+        "group-hover:opacity-100",
+        this.isOpen ? "opacity-100" : "opacity-0",
       ];
     },
 
     dropdownClasses() {
       return [
-        "z-10",
+        "z-30",
         "absolute",
         // "top-9",
         // "-right-full",
@@ -101,6 +101,7 @@ export default {
         this.getTopClass(event),
         this.getRightClass(event),
         this.getLeftClass(event),
+        this.getBottomClass(event),
       ];
     },
 
@@ -113,7 +114,7 @@ export default {
         // отнимаем от высоты окна вертикальную координату клика(получется расстояние
         // от клика до конца страницы) и если это расстояние меньше, чем выпадающий список
         // то мы смещаем список выше кнопки открытия
-        return "-top-14";
+        return "top-auto";
       }
       if (window.innerHeight - clickCoordY < dropdownHeight + buttonHeight) {
         // если растояние низа страницы и вертикальной координатой клика будет меньше
@@ -164,6 +165,14 @@ export default {
       }
 
       return "left-8";
+    },
+
+    getBottomClass(event) {
+      if (window.innerHeight - clickCoordY < dropdownHeight) {
+        return "bottom-9";
+      }
+
+      return "bottom-auto";
     },
   },
 };

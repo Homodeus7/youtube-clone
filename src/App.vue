@@ -37,13 +37,6 @@ export default {
     };
   },
   mounted() {
-    if (window.innerWidth >= 768 && window.innerWidth > 1200) {
-      this.isCompactSidebarActive = true;
-    }
-    if (window.innerWidth > 1200) {
-      this.isCompactSidebarActive = false;
-    }
-
     this.onResize();
 
     window.addEventListener("resize", this.onResize);
@@ -60,6 +53,7 @@ export default {
       } else {
         this.isCompactSidebarOpen = this.isCompactSidebarActive;
         this.isSidebarOpen = !this.isCompactSidebarActive;
+        this.isMobileSidebarOpen = false;
       }
     },
 

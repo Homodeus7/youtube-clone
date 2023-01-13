@@ -1,9 +1,6 @@
 <template>
   <div class="relative">
-    <button
-      @click="isOpen = !isOpen"
-      class="relative group p-2 focus:outline-none"
-    >
+    <button @click="isOpen = !isOpen" class="relative p-2 focus:outline-none">
       <BaseIcon name="viewGrid" class="w-5 h-5" />
     </button>
     <transition
@@ -16,7 +13,10 @@
     >
       <div
         v-show="isOpen"
-        class="absolute top-9 right-0 sm:left-0 bg-white w-60 border border-t-0"
+        ref="dropdown"
+        @keydown.esc="isOpen = false"
+        tabindex="-1"
+        class="absolute top-9 right-0 sm:left-0 bg-white w-60 border border-t-0 focus:outline-none"
       >
         <section class="py-2 border-b">
           <ul>
@@ -54,6 +54,13 @@ export default {
       isOpen: false,
     };
   },
+
+  watch: {
+    isOpen() {
+      this.$nextTick(() => this.isOpen && this.$refs.dropdown.focus());
+    },
+  },
+
   mounted() {
     window.addEventListener("click", (event) => {
       if (!this.$el.contains(event.target)) {

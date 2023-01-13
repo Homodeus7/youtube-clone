@@ -8,7 +8,11 @@
 <script>
 import TheSearchInput from "./TheSearchInput.vue";
 import TheSearchButton from "./TheSearchButton.vue";
+
 export default {
-  components: { TheSearchInput, TheSearchButton },
+  components: {
+    TheSearchInput,
+    TheSearchButton,
+  },
 };
 </script>

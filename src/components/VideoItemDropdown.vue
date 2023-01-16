@@ -52,7 +52,7 @@ export default {
   },
   watch: {
     isOpen() {
-      document.body.classList.toggle("overflow-hidden");
+      //document.body.classList.toggle("overflow-hidden");
 
       this.$nextTick(() => this.isOpen && this.$refs.dropdown.focus());
     },
@@ -127,9 +127,9 @@ export default {
     getRightClass(event) {
       const clickCoordX = event.clientX;
       const clickCoordY = event.clientY;
+      const buttonHeight = event.currentTarget.offsetHeight;
       const dropdownWidth = this.$refs.dropdown.offsetWidth;
       const dropdownHeight = this.$refs.dropdown.offsetHeight;
-      const buttonHeight = event.currentTarget.offsetHeight;
 
       if (window.innerWidth - clickCoordX > dropdownWidth) {
         return "right-auto";
@@ -142,7 +142,19 @@ export default {
       if (window.innerHeight - clickCoordY > dropdownHeight) {
         return "right-8";
       }
+
       return "right-0";
+    },
+
+    getBottomClass(event) {
+      const clickCoordY = event.clientY;
+      const dropdownHeight = this.$refs.dropdown.offsetHeight;
+
+      if (window.innerHeight - clickCoordY < dropdownHeight) {
+        return "bottom-9";
+      }
+
+      return "bottom-auto";
     },
 
     getLeftClass(event) {
@@ -165,14 +177,6 @@ export default {
       }
 
       return "left-8";
-    },
-
-    getBottomClass(event) {
-      if (window.innerHeight - clickCoordY < dropdownHeight) {
-        return "bottom-9";
-      }
-
-      return "bottom-auto";
     },
   },
 };

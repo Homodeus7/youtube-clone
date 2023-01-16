@@ -26,17 +26,13 @@ export default {
   props: {
     text: String,
     top: Boolean,
+    right: Boolean,
+    left: Boolean,
   },
   data() {
     return {
       isShown: false,
-    };
-  },
-
-  computed: {
-    classes() {
-      return [
-        "z-10",
+      classes: [
         "bg-gray-600",
         "bg-opacity-80",
         "rounded-sm",
@@ -46,10 +42,24 @@ export default {
         "p-2",
         "absolute",
         "transform",
-        "-translate-x-1/2",
-        "left-1/2",
-        this.top ? "bottom-12" : "top-14",
-      ];
+        ...this.getPositionClasses(),
+      ],
+    };
+  },
+
+  methods: {
+    getPositionClasses() {
+      const topClass = this.top ? "bottom-12" : "top-14";
+
+      if (this.right) {
+        return [topClass, "left-0"];
+      }
+
+      if (this.left) {
+        return [topClass, "right-0"];
+      }
+
+      return [topClass, "left-1/2", "-translate-x-1/2"];
     },
   },
 };

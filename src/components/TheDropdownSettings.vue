@@ -18,7 +18,7 @@
         ref="dropdown"
         @keydown.esc="isOpen = false"
         tabindex="-1"
-        class="absolute top-9 -right-full sm:right-0 bg-white w-72 border border-t-0 focus:outline-none"
+        :class="dropdownClasses"
       >
         <section class="py-2 border-b">
           <ul>
@@ -120,6 +120,22 @@ export default {
   watch: {
     isOpen() {
       this.$nextTick(() => this.isOpen && this.$refs.dropdown.focus());
+    },
+  },
+
+  computed: {
+    dropdownClasses() {
+      return [
+        "absolute",
+        "top-9",
+        "-right-full",
+        "sm:right-0",
+        "bg-white",
+        "w-72",
+        "border",
+        "border-t-0",
+        "focus:outline-none",
+      ];
     },
   },
 };

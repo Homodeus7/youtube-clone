@@ -28,6 +28,14 @@
           v-else-if="selectedMenu === 'appearance'"
           @select-menu="showSelectedMenu"
         />
+        <TheDropdownSettingsLanguage
+          v-else-if="selectedMenu === 'language'"
+          @select-menu="showSelectedMenu"
+        />
+        <TheDropdownSettingsLocation
+          v-else-if="selectedMenu === 'location'"
+          @select-menu="showSelectedMenu"
+        />
       </div>
     </transition>
   </div>
@@ -38,6 +46,8 @@ import BaseIcon from "./BaseIcon.vue";
 import BaseTooltip from "./BaseTooltip.vue";
 import TheDropdownSettingsMain from "./TheDropdownSettingsMain.vue";
 import TheDropdownSettingsAppearance from "./TheDropdownSettingsAppearance.vue";
+import TheDropdownSettingsLanguage from "./TheDropdownSettingsLanguage.vue";
+import TheDropdownSettingsLocation from "./TheDropdownSettingsLocation.vue";
 
 export default {
   props: ["icon", "label"],
@@ -47,6 +57,8 @@ export default {
     BaseTooltip,
     TheDropdownSettingsMain,
     TheDropdownSettingsAppearance,
+    TheDropdownSettingsLanguage,
+    TheDropdownSettingsLocation,
   },
 
   data() {
@@ -80,6 +92,7 @@ export default {
   methods: {
     showSelectedMenu(selectedMenu) {
       this.selectedMenu = selectedMenu;
+
       this.$refs.dropdown.focus();
     },
 

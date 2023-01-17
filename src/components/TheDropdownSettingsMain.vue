@@ -27,13 +27,13 @@
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 
 export default {
-  props: ["icon", "label"],
-
   components: {
     DropdownSettingsListItem,
   },
 
-  emits: ["select-menu"],
+  props: ["selectedOptions"],
+
+  emits: ["select-menu", "select-option"],
 
   data() {
     return {

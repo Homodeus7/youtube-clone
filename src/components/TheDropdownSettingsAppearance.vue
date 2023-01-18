@@ -17,30 +17,16 @@
 </template>
 
 <script>
-import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
-import DropdownSettingsHeader from "./DropdownSettingsHeader.vue";
+import dropdownSubmenu from "../mixins/dropdownSubmenu";
 
 export default {
-  components: {
-    DropdownSettingsListItem,
-    DropdownSettingsHeader,
-  },
-
-  props: ["selectedOptions"],
-
-  emits: ["close", "select-option"],
+  mixins: [dropdownSubmenu],
 
   data() {
     return {
+      optionName: "theme",
       themes: ["Devise theme", "Dark theme", "Light theme"],
     };
-  },
-
-  methods: {
-    selectOption(theme) {
-      this.$emit("select-option", { name: "theme", value: theme });
-      //this.selectedThemeId = themeId;
-    },
   },
 };
 </script>

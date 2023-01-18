@@ -1,8 +1,5 @@
 <template>
-  <DropdownSettingsHeader
-    title="Restricted Mode"
-    @back="$emit('select-menu', 'main')"
-  />
+  <DropdownSettingsHeader title="Restricted Mode" @back="$emit('close')" />
   <section class="px-3 py-4 space-y-4 text-black text-sm">
     <p>This helps hide potentialy mature videos. No filter is 100% accurate.</p>
     <p>This settings only apples to this browser.</p>
@@ -27,7 +24,7 @@ export default {
 
   props: ["selectedOptions"],
 
-  emits: ["select-menu", "select-option"],
+  emits: ["close", "select-option"],
 
   methods: {
     selectOption($event) {

@@ -3,6 +3,7 @@
     <input
       type="text"
       placeholder="Search"
+      v-bind="$attrs"
       :class="classes"
       v-model="searchQuery"
     />
@@ -20,6 +21,8 @@
 import BaseIcon from "./BaseIcon.vue";
 
 export default {
+  inheritAttrs: false,
+
   components: {
     BaseIcon,
   },

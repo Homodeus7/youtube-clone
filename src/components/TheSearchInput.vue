@@ -3,14 +3,19 @@
     <input
       type="text"
       placeholder="Search"
-      v-bind="$attrs"
+      ref="input"
       :class="classes"
-      v-model="searchQuery"
+      :value="query"
+      @input="updateQuery($event.target.value)"
+      @focus="setState(true)"
+      @blur="setState(false)"
+      @click="setState(true)"
+      @keyup.esc="handleEsc"
     />
     <button
       class="absolute top-0 right-0 h-full px-3 focus:outline-none"
       v-show="query"
-      @click="searchQuery = ''"
+      @click="updateQuery('')"
     >
       <BaseIcon name="x" class="w-5 h-5" />
     </button>
@@ -27,12 +32,13 @@ export default {
     BaseIcon,
   },
 
-  props: ["query"],
+  props: ["query", "hasResults"],
 
-  emits: ["update:query"],
+  emits: ["update:query", "change-state"],
 
   data() {
     return {
+      isActive: false,
       classes: [
         "w-full",
         "h-full",
@@ -48,22 +54,39 @@ export default {
     };
   },
 
-  computed: {
-    searchQuery: {
-      get() {
-        return this.query;
-      },
-
-      set(searchQuery) {
-        this.$emit("update:query", searchQuery);
-      },
-    },
-  },
-
   mounted() {
     if (window.innerWidth < 640) {
       this.$el.focus();
     }
+  },
+
+  methods: {
+    updateQuery(query) {
+      this.$emit("update:query", query);
+      setState(this.isActive);
+    },
+
+    setState(isActive) {
+      this.isActive = isActive;
+      this.$emit("change-state", isActive);
+    },
+
+    handleEsc() {
+      // нажатие клавиши еск
+      this.removeSelection();
+
+      if (this.isActive && this.hasResults) {
+        this.setState(false);
+      } else {
+        this.$refs.input.blur();
+      }
+    },
+
+    removeSelection() {
+      const end = this.$refs.input.value.length;
+
+      this.$refs.input.setSelectionRange(end, end); //убираем выделение текста
+    },
   },
 };
 </script>

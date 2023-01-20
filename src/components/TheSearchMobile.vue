@@ -5,7 +5,10 @@
         <BaseIcon name="arrowLeft" class="w-5 h-5" />
       </button>
     </BaseTooltip>
-    <TheSearch />
+    <TheSearch
+      :search-query="searchQuery"
+      @update-search-query="$emit('update-search-query', $event)"
+    />
     <BaseTooltip text="Search with your voice" left>
       <button class="p-2 focus:outline-none">
         <BaseIcon name="microphone" class="w-5 h-5" />
@@ -25,6 +28,10 @@ export default {
     BaseTooltip,
     TheSearch,
   },
+
+  props: ["searchQuery"],
+
+  emits: ["update-search-query"],
 
   mounted() {
     window.addEventListener("click", this.onClick);

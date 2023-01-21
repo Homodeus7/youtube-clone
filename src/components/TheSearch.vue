@@ -3,10 +3,16 @@
     <div class="relative flex w-full">
       <TheSearchInput
         v-model:query="query"
-        @change-state="toggleSearchResults"
         :has-results="results.length"
+        @change-state="toggleSearchResults"
+        @keyup.up="handlePreviousSearchResult"
+        @keyup.down="handleNextSearchResult"
       />
-      <TheSearchResult v-show="isSearchResultsShown" :results="results" />
+      <TheSearchResult
+        v-show="isSearchResultsShown"
+        :results="results"
+        :active-result-id="activeSearchResultId"
+      />
     </div>
     <TheSearchButton />
   </div>
@@ -32,6 +38,7 @@ export default {
     return {
       query: this.searchQuery,
       isSearchResultsShown: false,
+      activeSearchResultId: null,
       keywords: [
         "new york giants",
         "new york alicia keys",
@@ -76,6 +83,30 @@ export default {
   methods: {
     toggleSearchResults(isSearchInputActive) {
       this.isSearchResultsShown = isSearchInputActive;
+    },
+
+    handlePreviousSearchResult() {
+      if (!this.isSearchResultsShown) {
+        this.toggleSearchResults(true);
+      } else if (this.activeSearchResultId === null) {
+        this.activeSearchResultId = this.results.length - 1;
+      } else if (this.activeSearchResultId === 0) {
+        this.activeSearchResultId = null;
+      } else {
+        this.activeSearchResultId--;
+      }
+    },
+
+    handleNextSearchResult() {
+      if (!this.isSearchResultsShown) {
+        this.toggleSearchResults(true);
+      } else if (this.activeSearchResultId === null) {
+        this.activeSearchResultId = 0;
+      } else if (this.activeSearchResultId + 1 === this.results.length) {
+        this.activeSearchResultId = null;
+      } else {
+        this.activeSearchResultId++;
+      }
     },
   },
 };

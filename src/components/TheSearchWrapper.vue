@@ -1,15 +1,12 @@
 <template>
-  <div class="absolute w-full p-2 z-10 flex">
-    <BaseTooltip text="Back" right>
+  <div :class="classes">
+    <BaseTooltip v-if="isSmallScreen" text="Back" right>
       <button @click="$emit('close')" class="mr-2 p-2 focus:outline-none">
         <BaseIcon name="arrowLeft" class="w-5 h-5" />
       </button>
     </BaseTooltip>
-    <TheSearch
-      :search-query="searchQuery"
-      @update-search-query="$emit('update-search-query', $event)"
-    />
-    <BaseTooltip text="Search with your voice" left>
+    <TheSearch />
+    <BaseTooltip text="Search with your voice" :left="isSmallScreen">
       <button class="p-2 focus:outline-none">
         <BaseIcon name="microphone" class="w-5 h-5" />
       </button>
@@ -29,7 +26,7 @@ export default {
     TheSearch,
   },
 
-  props: ["searchQuery"],
+  props: ["isSmallScreen"],
 
   emits: ["update-search-query"],
 
@@ -46,6 +43,27 @@ export default {
       if (!this.$el.contains(event.target)) {
         this.$emit("close");
       }
+    },
+  },
+
+  computed: {
+    classes() {
+      return this.isSmallScreen
+        ? ["absolute", "w-full", "p-2", "z-10", "flex"]
+        : [
+            "hidden",
+            "sm:flex",
+            "items-center",
+            "justify-end",
+            "p-2.5",
+            "pl-8",
+            "md:pl-12",
+            "md:px-8",
+            "flex-1",
+            "lg:px-0",
+            "lg:w-1/2",
+            "max-w-screen-md",
+          ];
     },
   },
 };

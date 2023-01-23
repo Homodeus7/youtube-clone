@@ -8,6 +8,7 @@
         @change-state="toggleSearchResults"
         @keyup.up="handlePreviousSearchResult"
         @keyup.down="handleNextSearchResult"
+        @enter="selectSearchResult"
         @keydown.up.prevent
       />
       <TheSearchResult
@@ -19,7 +20,7 @@
         @search-result-click="selectSearchResult"
       />
     </div>
-    <TheSearchButton />
+    <TheSearchButton @click.stop="selectSearchResult" />
   </div>
 </template>
 
@@ -35,15 +36,11 @@ export default {
     TheSearchResult,
   },
 
-  props: ["searchQuery"],
-
-  emits: ["update-search-query"],
-
   data() {
     return {
       results: [],
-      query: this.searchQuery,
-      activeQuery: this.searchQuery,
+      query: "",
+      activeQuery: "",
       isSearchResultsShown: false,
       activeSearchResultId: null,
       keywords: [
@@ -71,22 +68,13 @@ export default {
     },
   },
 
-  watch: {
-    query(query) {
-      this.$emit("update-search-query", query);
-    },
-  },
-
   mounted() {
-    document.addEventListener("click", this.handleClick);
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("click", this.handleClick);
+    window.addEventListener("click", this.onClickAndResize);
+    window.addEventListener("resize", this.onClickAndResize);
   },
 
   methods: {
-    handleClick() {
+    onClickAndResize() {
       this.toggleSearchResults(false);
     },
 
@@ -110,6 +98,7 @@ export default {
     handlePreviousSearchResult() {
       if (this.isSearchResultsShown) {
         this.makePreviousSearchResultActive();
+        this.updateQueryWithSearchResults();
       } else {
         this.toggleSearchResults(true);
       }
@@ -118,6 +107,7 @@ export default {
     handleNextSearchResult() {
       if (this.isSearchResultsShown) {
         this.makeNextSearchResultActive();
+        this.updateQueryWithSearchResults();
       } else {
         this.toggleSearchResults(true);
       }
@@ -131,7 +121,6 @@ export default {
       } else {
         this.activeSearchResultId--;
       }
-      this.updateQueryWithSearchResults();
     },
     makeNextSearchResultActive() {
       if (this.activeSearchResultId === null) {
@@ -141,7 +130,6 @@ export default {
       } else {
         this.activeSearchResultId++;
       }
-      this.updateQueryWithSearchResults();
     },
 
     updateQueryWithSearchResults() {
@@ -152,11 +140,14 @@ export default {
         : this.activeQuery;
     },
 
-    selectSearchResult(searchResultId) {
-      this.query = this.results[searchResultId];
+    selectSearchResult() {
+      this.query = this.activeSearchResultId
+        ? this.results[this.activeSearchResultId]
+        : this.query;
+
+      this.toggleSearchResults(false);
 
       this.updateSearchResults();
-      this.toggleSearchResults(false);
     },
   },
 };

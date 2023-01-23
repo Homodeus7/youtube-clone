@@ -7,19 +7,15 @@
     </BaseTooltip>
     <TheSearch />
     <BaseTooltip text="Search with your voice" :left="isSmallScreen">
-      <button @click="isVoiceModalOpen = true" class="p-2 focus:outline-none">
+      <button @click="$emit('open-voice-modal')" class="p-2 focus:outline-none">
         <BaseIcon name="microphone" class="w-5 h-5" />
       </button>
     </BaseTooltip>
-    <teleport to="body">
-      <BaseModal v-if="isVoiceModalOpen" @close="isVoiceModalOpen = false" />
-    </teleport>
   </div>
 </template>
 
 <script>
 import BaseIcon from "./BaseIcon.vue";
-import BaseModal from "./BaseModal.vue";
 import BaseTooltip from "./BaseTooltip.vue";
 import TheSearch from "./TheSearch.vue";
 
@@ -28,18 +24,11 @@ export default {
     BaseIcon,
     BaseTooltip,
     TheSearch,
-    BaseModal,
   },
 
   props: ["isSmallScreen"],
 
-  emits: ["close"],
-
-  data() {
-    return {
-      isVoiceModalOpen: false,
-    };
-  },
+  emits: ["close", "open-voice-modal"],
 
   mounted() {
     window.addEventListener("click", this.onClick);

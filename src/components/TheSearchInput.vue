@@ -30,6 +30,8 @@ export default {
     BaseIcon,
   },
 
+  inject: ["isMobileSearchActive"],
+
   props: ["query", "hasResults"],
 
   emits: ["update:query", "change-state", "enter"],
@@ -50,6 +52,14 @@ export default {
         "focus:outline-none",
       ],
     };
+  },
+
+  watch: {
+    "isMobileSearchActive.value"(isMobileSearchActive) {
+      if (isMobileSearchActive) {
+        this.$nextTick(() => this.$refs.input.focus());
+      }
+    },
   },
 
   mounted() {

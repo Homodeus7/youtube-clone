@@ -4,9 +4,11 @@
       <TheSearchInput
         v-model:query="query"
         :has-results="results.length"
+        @update:query="updateSearchResults"
         @change-state="toggleSearchResults"
         @keyup.up="handlePreviousSearchResult"
         @keyup.down="handleNextSearchResult"
+        @keydown.up.prevent
       />
       <TheSearchResult
         v-show="isSearchResultsShown"
@@ -36,7 +38,9 @@ export default {
 
   data() {
     return {
+      results: [],
       query: this.searchQuery,
+      activeQuery: this.searchQuery,
       isSearchResultsShown: false,
       activeSearchResultId: null,
       keywords: [
@@ -59,16 +63,6 @@ export default {
   },
 
   computed: {
-    results() {
-      if (!this.query) {
-        return [];
-      }
-
-      return this.keywords.filter((result) => {
-        return result.includes(this.trimmedQuery);
-      });
-    },
-
     trimmedQuery() {
       return this.query.replace(/\s+/g, " ").trim();
     },
@@ -81,32 +75,66 @@ export default {
   },
 
   methods: {
+    updateSearchResults() {
+      this.activeSearchResultId = null;
+      this.activeQuery = this.query;
+
+      if (this.query === "") {
+        this.results = [];
+      } else {
+        this.results = this.keywords.filter((result) => {
+          return result.includes(this.trimmedQuery);
+        });
+      }
+    },
+
     toggleSearchResults(isSearchInputActive) {
       this.isSearchResultsShown = isSearchInputActive;
     },
 
     handlePreviousSearchResult() {
-      if (!this.isSearchResultsShown) {
+      if (this.isSearchResultsShown) {
+        this.makePreviousSearchResultActive();
+      } else {
         this.toggleSearchResults(true);
-      } else if (this.activeSearchResultId === null) {
+      }
+    },
+
+    handleNextSearchResult() {
+      if (this.isSearchResultsShown) {
+        this.makeNextSearchResultActive();
+      } else {
+        this.toggleSearchResults(true);
+      }
+    },
+
+    makePreviousSearchResultActive() {
+      if (this.activeSearchResultId === null) {
         this.activeSearchResultId = this.results.length - 1;
       } else if (this.activeSearchResultId === 0) {
         this.activeSearchResultId = null;
       } else {
         this.activeSearchResultId--;
       }
+      this.updateQueryWithSearchResults();
     },
-
-    handleNextSearchResult() {
-      if (!this.isSearchResultsShown) {
-        this.toggleSearchResults(true);
-      } else if (this.activeSearchResultId === null) {
+    makeNextSearchResultActive() {
+      if (this.activeSearchResultId === null) {
         this.activeSearchResultId = 0;
       } else if (this.activeSearchResultId + 1 === this.results.length) {
         this.activeSearchResultId = null;
       } else {
         this.activeSearchResultId++;
       }
+      this.updateQueryWithSearchResults();
+    },
+
+    updateQueryWithSearchResults() {
+      const hasActiveSearchResult = this.activeSearchResultId !== null;
+
+      this.query = hasActiveSearchResult
+        ? this.results[this.activeSearchResultId]
+        : this.activeQuery;
     },
   },
 };

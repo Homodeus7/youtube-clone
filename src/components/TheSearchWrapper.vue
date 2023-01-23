@@ -34,10 +34,6 @@ export default {
     window.addEventListener("click", this.onClick);
   },
 
-  beforeUnmount() {
-    window.removeEventListener("click", this.onClick);
-  },
-
   methods: {
     onClick(event) {
       if (!this.$el.contains(event.target)) {

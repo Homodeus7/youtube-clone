@@ -41,7 +41,10 @@
     </div>
   </header>
   <teleport to="body">
-    <BaseModal v-if="isVoiceModalOpen" @close="isVoiceModalOpen = false" />
+    <TheMoalSearchWithVoice
+      v-if="isVoiceModalOpen"
+      @close="isVoiceModalOpen = false"
+    />
   </teleport>
 </template>
 
@@ -54,7 +57,7 @@ import ButtonLogin from "./ButtonLogin.vue";
 import BaseIcon from "./BaseIcon.vue";
 import BaseTooltip from "./BaseTooltip.vue";
 import TheSearchWrapper from "./TheSearchWrapper.vue";
-import BaseModal from "./BaseModal.vue";
+import TheMoalSearchWithVoice from "./TheModalSearchWithVoice.vue";
 
 export default {
   components: {
@@ -65,7 +68,7 @@ export default {
     BaseIcon,
     BaseTooltip,
     TheSearchWrapper,
-    BaseModal,
+    TheMoalSearchWithVoice,
   },
 
   provide() {

@@ -17,7 +17,7 @@
       v-show="query"
       @click="clear"
     >
-      <BaseIcon name="x" class="w-5 h-5" />
+      <BaseIcon name="x" class="w-5 w-5" />
     </button>
   </div>
 </template>
@@ -83,11 +83,13 @@ export default {
 
     updateQuery(query) {
       this.$emit("update:query", query);
-      setState(this.isActive);
+
+      this.setState(this.isActive);
     },
 
     setState(isActive) {
       this.isActive = isActive;
+
       this.$emit("change-state", isActive);
     },
 
@@ -104,7 +106,9 @@ export default {
 
     handleEnter() {
       this.setState(false);
+
       this.$refs.input.blur();
+
       this.$emit("enter");
     },
 
@@ -116,6 +120,7 @@ export default {
 
     clear() {
       this.$refs.input.focus();
+
       this.updateQuery("");
     },
   },
